@@ -16,21 +16,27 @@ services:
       - name: nextjs1-dashboard
         paths:
           - /dashboard
+        strip_path: false
       - name: nextjs1-student
         paths:
           - /student
+        strip_path: false
       - name: nextjs1-student-dashboard
         paths:
           - /student/dashboard
+        strip_path: false
       - name: nextjs1-course-details
         paths:
           - /course-details
+        strip_path: false
       - name: nextjs1-community
         paths:
           - /community
+        strip_path: false
       - name: nextjs1-root
         paths:
           - /
+        strip_path: false
 
   # Next.js 2 service
   - name: nextjs2-service
@@ -39,9 +45,12 @@ services:
       - name: nextjs2-root
         paths:
           - /
+        strip_path: false
       - name: nextjs2-dynamic-path
         paths:
           - /:dynamicPath
+        strip_path: false
       - name: nextjs2-dynamic-nested-path
         paths:
           - /:dynamicPath/:nestedPath
+        strip_path: false

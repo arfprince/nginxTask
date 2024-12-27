@@ -1,0 +1,47 @@
+_format_version: "3.0"
+
+services:
+  # Backend service
+  - name: backend-service
+    url: http://backend:3333
+    routes:
+      - name: backend-api
+        paths:
+          - /api
+
+  # Next.js 1 service
+  - name: nextjs1-service
+    url: http://nextjs1:3002
+    routes:
+      - name: nextjs1-dashboard
+        paths:
+          - /dashboard
+      - name: nextjs1-student
+        paths:
+          - /student
+      - name: nextjs1-student-dashboard
+        paths:
+          - /student/dashboard
+      - name: nextjs1-course-details
+        paths:
+          - /course-details
+      - name: nextjs1-community
+        paths:
+          - /community
+      - name: nextjs1-root
+        paths:
+          - /
+
+  # Next.js 2 service
+  - name: nextjs2-service
+    url: http://nextjs2:3003
+    routes:
+      - name: nextjs2-root
+        paths:
+          - /
+      - name: nextjs2-dynamic-path
+        paths:
+          - /:dynamicPath
+      - name: nextjs2-dynamic-nested-path
+        paths:
+          - /:dynamicPath/:nestedPath

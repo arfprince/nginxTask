@@ -8,6 +8,8 @@ services:
       - name: backend-api
         paths:
           - /api
+        hosts:
+          - "d.ecstaging.org"
 
   # Next.js 1 service
   - name: nextjs1-service
@@ -16,26 +18,43 @@ services:
       - name: nextjs1-dashboard
         paths:
           - /dashboard
+        hosts:
+          - "d.ecstaging.org"
         strip_path: false
+
       - name: nextjs1-student
         paths:
           - /student
+        hosts:
+          - "d.ecstaging.org"
         strip_path: false
+
       - name: nextjs1-student-dashboard
         paths:
           - /student/dashboard
+        hosts:
+          - "d.ecstaging.org"
         strip_path: false
+
       - name: nextjs1-course-details
         paths:
           - /course-details
+        hosts:
+          - "d.ecstaging.org"
         strip_path: false
+
       - name: nextjs1-community
         paths:
           - /community
+        hosts:
+          - "d.ecstaging.org"
         strip_path: false
+
       - name: nextjs1-root
         paths:
           - /
+        hosts:
+          - "d.ecstaging.org"
         strip_path: false
 
   # Next.js 2 service
@@ -45,12 +64,20 @@ services:
       - name: nextjs2-root
         paths:
           - /
+        hosts:
+          - "d.ecstaging.org"
         strip_path: false
+
       - name: nextjs2-dynamic-path
         paths:
           - /:dynamicPath
+        hosts:
+          - "d.ecstaging.org"
         strip_path: false
+
       - name: nextjs2-dynamic-nested-path
         paths:
           - /:dynamicPath/:nestedPath
+        hosts:
+          - "d.ecstaging.org"
         strip_path: false

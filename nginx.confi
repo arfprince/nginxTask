@@ -1,0 +1,74 @@
+server {
+  listen 80;
+  listen [::]:80;
+  server_name ezycourse.com www.ezycourse.com;
+
+  if ($host ~ ^[^.]+\.ezycourse\.com$) {
+    return 301 https://$host$request_uri;
+  }
+
+  return 301 https://$host$request_uri;
+}
+
+# catch all subdomain
+server {
+  listen 443 ssl; # managed by Certbot
+  server_name *.ezycourse.com;
+  ssl_certificate /home/ubuntu/ssl/cert.pem; # managed by Certbot
+  ssl_certificate_key /home/ubuntu/ssl/cert.key; # managed by Certbot
+
+  location ^~ /meeting/join {
+    alias /home/ubuntu/zoom-web-client/dist;
+    index index.html;
+
+    # SharedArrayBuffer enable
+    add_header Cross-Origin-Embedder-Policy "require-corp";
+    add_header Cross-Origin-Opener-Policy "same-origin";
+
+    # Ensure Nginx can access the file
+    allow all;
+  }
+
+  location / {
+    #root /var/www/web-maintaince;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_pass http://localhost:3000/;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Accept-Encoding "";
+    proxy_set_header Proxy "";
+    proxy_cache_bypass $http_upgrade;
+  }
+
+  location /api/ {
+    rewrite ^/api/(.*) /$1 break;
+    proxy_pass http://localhost:3333/;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Accept-Encoding "";
+    proxy_set_header Proxy "";
+    proxy_cache_bypass $http_upgrade;
+  }
+
+  location /ezy-scorm-files/ {
+    proxy_pass https://staticwebsitesforezy.blob.core.windows.net/;
+    proxy_http_version 1.1;
+    proxy_set_header Host  "staticwebsitesforezy.blob.core.windows.net";
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_cache_bypass $http_upgrade;
+    proxy_ignore_headers "Cache-Control" "Expires";
+  }
+
+}
